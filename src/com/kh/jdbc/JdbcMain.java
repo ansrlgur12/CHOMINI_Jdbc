@@ -7,8 +7,10 @@ import java.util.List;
 
 public class JdbcMain {
     public static void main(String[] args) {
+
         CusDao dao = new CusDao();
         List<CusVO> list = dao.cusSelect();
         dao.cusSelectPrint(list);
+
     }
 }
