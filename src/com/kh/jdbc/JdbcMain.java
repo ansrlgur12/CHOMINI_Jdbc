@@ -14,3 +14,5 @@ public class JdbcMain {
 
     }
 }
+
+// 깃..너무어려운 깃
