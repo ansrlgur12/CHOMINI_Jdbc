@@ -15,7 +15,7 @@ public class Common {
         Connection conn = null;
         try {
             Class.forName(ORACLE_DRV);
-            conn = DriverManager.getConnection(ORACLE_URL, ORACLE_ID, ORACLE_PWD)
+            conn = DriverManager.getConnection(ORACLE_URL, ORACLE_ID, ORACLE_PWD);
 
         } catch (Exception e) {
             e.printStackTrace();
