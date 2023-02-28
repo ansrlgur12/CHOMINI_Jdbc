@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 public class Common {
     final static String ORACLE_URL = "jdbc:oracle:thin:@localhost:1521:xe";
-    final static String ORACLE_ID = "CHOMINI";
+    final static String ORACLE_ID = "test_user1";
     final static String ORACLE_PWD = "1234";
     final static String ORACLE_DRV = "oracle.jdbc.driver.OracleDriver";
 
