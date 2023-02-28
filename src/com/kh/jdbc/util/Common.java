@@ -43,15 +43,15 @@ public class Common {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        public static void close (ResultSet rSet){
-            try {
-                if (rSet != null && !rSet.isClosed()) {
-                    rSet.close();
-                    System.out.println("ResultSet 해제 성공");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+    }
+    public static void close (ResultSet rSet){
+        try {
+            if (rSet != null && !rSet.isClosed()) {
+                rSet.close();
+                System.out.println("ResultSet 해제 성공");
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
