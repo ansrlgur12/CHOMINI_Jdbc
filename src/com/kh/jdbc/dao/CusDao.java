@@ -48,4 +48,68 @@ public class CusDao {
             System.out.println("------------------------------------------");
         }
     }
+
+    public void cusInsert() {
+        System.out.println("회원정보를 입력하세요");
+        System.out.print("회원번호(4자리) : ");
+        int cusNo = sc.nextInt();
+        System.out.print("이름 : ");
+        String cusName = sc.next();
+        System.out.print("전화번호 : ");
+        String phone = sc.next();
+
+        String sql = "INSERT INTO CUSTOMER(회원번호, 고객이름, 전화번호) VALUES(?,?,?)";
+
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setInt(1, cusNo);
+            pStmt.setString(2, cusName);
+            pStmt.setString(3, phone);
+
+            int ret = pStmt.executeUpdate();
+            System.out.println("Return : " + ret);
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(stmt);
+        Common.close(conn);
+    }
+
+    public void cusUpdate(){
+        System.out.print("변경할 회원의 이름을 입력하세요 : ");
+        String cusName = sc.next();
+        System.out.print("전화번호 : ");
+        String phone = sc.next();
+
+        String sql = "UPDATE CUSTOMER SET 전화번호 = ? WHERE 고객이름 = ?";
+
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, phone);
+            pStmt.setString(2, cusName);
+            pStmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(pStmt);
+        Common.close(conn);
+    }
+
+    public void cusDelete() {
+        System.out.print("삭제할 이름을 입력 하세요 : ");
+        String cusName = sc.next();
+        String sql = "DELETE FROM CUSTOMER WHERE 고객이름 = ?";
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, cusName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(pStmt);
+        Common.close(conn);
+    }
 }
