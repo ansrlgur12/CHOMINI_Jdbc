@@ -1,6 +1,7 @@
 package com.kh.jdbc.dao;
 
 import com.kh.jdbc.util.Common;
+import com.kh.jdbc.vo.CusVO;
 import com.kh.jdbc.vo.MenuVO;
 
 import java.sql.Connection;
@@ -43,11 +44,15 @@ public class MenuDao {
     }
 
     public void menuSelectPrint(List<MenuVO> list) {
+        System.out.println("     메뉴     |      가격 ");
+        System.out.println("------------------------");
+
         for (MenuVO e : list) {
-            System.out.println("메뉴이름 : " + e.getMenuName());
-            System.out.println("메뉴가격 : " + e.getPrice());
-            System.out.println("------------------------------------------");
+            System.out.print(e.getMenuName());
+            System.out.println("     |    " + e.getPrice() + "원");
+            System.out.println("-------------------------");
         }
+
     }
 
     public void menuInsert() {
@@ -67,6 +72,7 @@ public class MenuDao {
 
             int ret = pStmt.executeUpdate();
             System.out.println("Return : " + ret);
+            System.out.println("메뉴 추가 성공!!");
 
         }catch (Exception e) {
             e.printStackTrace();
@@ -81,7 +87,7 @@ public class MenuDao {
         System.out.print("메뉴 가격 : ");
         int price = sc.nextInt();
 
-        String sql = "UPDATE CUSTOMER SET 메뉴가격 = ? WHERE 메뉴이름 = ?";
+        String sql = "UPDATE MENU SET 메뉴가격 = ? WHERE 메뉴이름 = ?";
 
         try{
             conn = Common.getConnection();
@@ -104,11 +110,49 @@ public class MenuDao {
             conn = Common.getConnection();
             pStmt = conn.prepareStatement(sql);
             pStmt.setString(1, menuName);
+            pStmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
         Common.close(pStmt);
         Common.close(conn);
+    }
+
+    public void menuInfo(){
+        System.out.println("메뉴관리 입니다 ");
+        while (true) {
+            System.out.print("[1]  메뉴조회  [2] 메뉴추가  [3] 메뉴수정  [4]  메뉴삭제  [5]  이전메뉴 \n -> ");
+            int selNum = sc.nextInt();
+            switch (selNum) {
+                case 1 :
+                    System.out.println("메뉴조회입니다.");
+                    List<MenuVO> list = menuSelect();
+                    menuSelectPrint(list);
+                    break;
+                case 2 :
+                    System.out.println("메뉴추가 입니다.");
+                    menuInsert();
+                    break;
+
+                case 3 :
+                    System.out.println("메뉴 수정입니다.");
+                    menuUpdate();
+                    break;
+
+                case 4 :
+                    System.out.println("메뉴 삭제 입니다.");
+                    menuDelete();
+                    break;
+
+                case 5 :
+                    System.out.println("회원관리메뉴를 종료합니다.");
+                    return;
+                default:
+                    System.out.println("잘못입력하셨습니다.");
+                    selNum = 0;
+                    continue;
+            }
+        }
     }
 
 }

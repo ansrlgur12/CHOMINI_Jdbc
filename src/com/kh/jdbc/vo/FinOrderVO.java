@@ -14,7 +14,7 @@ import java.sql.Date;
         private int howMany;
         private int total;
 
-        public FinOrderVO(Date date, int orderNo, int customNo, String menuName, String size, String bread, String cheese, String vegetable, String sauce, int howMany, int total) {
+        public FinOrderVO(Date date, int orderNo, int customNo, String menuName, String size, String bread, String cheese, String vegetable, String sauce, int howMany/*, int total*/) {
             this.date = date;
             this.orderNo = orderNo;
             this.customNo = customNo;
@@ -25,7 +25,7 @@ import java.sql.Date;
             this.vegetable = vegetable;
             this.sauce = sauce;
             this.howMany = howMany;
-            this.total = total;
+           // this.total = total;
         }
 
         public Date getDate() {

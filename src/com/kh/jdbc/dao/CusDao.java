@@ -41,10 +41,10 @@ public class CusDao {
     }
 
     public void cusSelectPrint(List<CusVO> list) {
+        System.out.println(" 회원번호   |  고객이름  |  전화번호");
+        System.out.println("-----------------------------------------");
         for (CusVO e : list) {
-            System.out.println("회원번호 : " + e.getCusNo());
-            System.out.println("고객이름 : " + e.getCusName());
-            System.out.println("전화번호 : " + e.getPhone());
+            System.out.println("   " + e.getCusNo() + "   |   " + e.getCusName() + "   |   " + e.getPhone());
             System.out.println("------------------------------------------");
         }
     }
@@ -91,6 +91,7 @@ public class CusDao {
             pStmt.setString(1, phone);
             pStmt.setString(2, cusName);
             pStmt.executeUpdate();
+            System.out.println("수정 완료!!");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -99,13 +100,15 @@ public class CusDao {
     }
 
     public void cusDelete() {
-        System.out.print("삭제할 이름을 입력 하세요 : ");
+        System.out.print("삭제할 회원의 이름을 입력하세요 : ");
         String cusName = sc.next();
         String sql = "DELETE FROM CUSTOMER WHERE 고객이름 = ?";
         try {
             conn = Common.getConnection();
             pStmt = conn.prepareStatement(sql);
             pStmt.setString(1, cusName);
+            pStmt.executeUpdate();
+            System.out.println("삭제 완료!!");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -163,5 +166,35 @@ public class CusDao {
         }
         Common.close(pStmt);
         Common.close(conn);
+    }
+
+    public void CusInfo() {
+        System.out.println("회원관리 메뉴입니다 ");
+        while (true) {
+            System.out.print("[1]  회원조회  [2]  회원수정  [3]  회원삭제  [4]  이전메뉴 \n -> ");
+            int selNum = sc.nextInt();
+            switch (selNum) {
+                case 1 :
+                    System.out.println("회원조회입니다.");
+                    List<CusVO> list = cusSelect();
+                    cusSelectPrint(list);
+                    break;
+                case 2 :
+                    System.out.println("회원 수정입니다.");
+                    cusUpdate();
+                    break;
+                case 3 :
+                    System.out.println("회원 삭제 입니다.");
+                    cusDelete();
+                    break;
+                case 4 :
+                    System.out.println("회원관리메뉴를 종료합니다.");
+                    return;
+                default:
+                    System.out.println("잘못입력하셨습니다.");
+                    selNum = 0;
+                    continue;
+            }
+        }
     }
 }

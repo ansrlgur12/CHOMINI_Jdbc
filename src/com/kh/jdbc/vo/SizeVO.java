@@ -4,6 +4,9 @@ public class SizeVO {
     private String size;
     private int sPrice;
 
+    public SizeVO() {
+    }
+
     public SizeVO(String size, int sPrice) {
         this.size = size;
         this.sPrice = sPrice;
