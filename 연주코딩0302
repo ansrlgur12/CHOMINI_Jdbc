@@ -1,0 +1,189 @@
+package com.kh.jdbc.dao;
+
+import com.kh.jdbc.util.Common;
+import com.kh.jdbc.vo.FinOrderVO;
+import com.kh.jdbc.vo.OrderVO;
+import jdk.jshell.spi.ExecutionControlProvider;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class OrderDao {
+    Connection conn = null;
+    Statement stmt = null;
+    PreparedStatement pStmt = null;
+    ResultSet rs = null;
+    Scanner sc = new Scanner(System.in);
+
+    public List<OrderVO> orderSelect() { // 이 코딩은 필요없을 것 같음; 주문 후 마지막 확인페이지로 수정하고 총 매출 확인하기위해 완료된 주문을 입력해 놓을 테이블 필요
+        // 옵션테이블도 필요없을 것 같음 여기서 같이 입력받아서 파이날오더 테이블에 저장시키면 될 것 같음
+
+        List<OrderVO> list = new ArrayList<>();
+        try {
+            conn = Common.getConnection();
+            stmt = conn.createStatement();
+            String sql = "SELECT * FROM ORDER_TABLE";
+            rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+                int orderNo = rs.getInt("주문번호");
+                Date date = rs.getDate("주문날짜");
+                int customNo = rs.getInt("회원번호");
+                String menuName = rs.getString("메뉴이름");
+                String size = rs.getString("사이즈");
+                int howMany = rs.getInt("수량");
+                OrderVO vo = new OrderVO(orderNo, date, customNo, menuName, size, howMany);
+                list.add(vo);
+            }
+            Common.close(rs);
+            Common.close(stmt);
+            Common.close(conn);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public void orderInsert() {
+        System.out.println("----- 주문을 시작 하세요 -----");
+        // 주문번호를 스퀀스로해야함
+        // 주문시간도 입력받으면 안됨
+        System.out.print("회원 번호를 입력 하세요 : ");
+        int cusNo = sc.nextInt();
+        // 회원이 아니면 회원정보 입력으로
+        // 메인에서 회원등록을 먼저 받고 오더인서트로 들어오게 해야함.
+        // 주문날짜 회원번호 컬럼 순서 바꿔야함
+        System.out.print("메뉴이름을 입력 하세요 : ");
+        String menuName = sc.next();
+        System.out.print("사이즈를 입럭하세요( S / M / L) : ");
+        String size = sc.next();
+        System.out.print("수량을 입력하세요 : ");
+        int howMany = sc.nextInt();
+
+        String sql = "INSERT INTO ORDER_TABLE(회원번호, 메뉴이름, 사이즈, 수량) VALUES(?,?,?,?);";
+
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setInt(1, cusNo);
+            pStmt.setString(2, menuName);
+            pStmt.setString(3, size);
+            pStmt.setInt(4, howMany);
+            int ret = stmt.executeUpdate(sql);
+            System.out.println("Return : " + ret);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(stmt);
+        Common.close(conn);
+    }
+
+    public void orderSelectPrint(List<OrderVO> list) {
+        for(OrderVO o : list) {
+            System.out.println("--------- 주문 내역을 확인하세요 ---------");
+            System.out.println("주문 번호 : " + o.getOrderNo());
+            System.out.println("주문 날짜 : " + o.getDate());
+            System.out.println("회원 번호 : " + o.getCustomNo());
+            System.out.println("메뉴 이름 : " + o.getMenuName());
+            System.out.println("사 이 즈 : " + o.getSize());
+            System.out.println("수    량  : " + o.getHowMany());
+            System.out.println("--------------------------------------");
+        }
+    }
+    // 결제 전 주문확인
+    public void orderCheck() {
+        try {
+            conn = Common.getConnection();
+            stmt = conn.createStatement();
+            String sql_check = "SELECT O.메뉴이름, S.사이즈, 빵, 치즈, 야채, 소스, 수량, ((메뉴가격+추가금액)*수량) AS 합계"
+                                +"FROM ORDER_TABLE O, SIZE_TABLE S, OPTION_TABLE OP, MENU M"
+                                +"WHERE O.메뉴이름 = M.메뉴이름"
+                                +"AND O.사이즈 = S.사이즈"
+                                +"AND O.메뉴이름 = OP.메뉴이름";
+            rs = stmt.executeQuery(sql_check);
+
+            System.out.println();
+            int total = 0;
+            System.out.println("---------- 주문을 확인 하세요 ----------");
+            while (rs.next()) {
+                System.out.println("선택한 샌드위치/샐러드 : " + rs.getString("메뉴이름"));
+                System.out.println("선택한 사이즈 : " + rs.getString("사이즈"));
+                System.out.println("선택하신 빵 / 치즈 / 야채 / 소스 : " +rs.getString("빵") + " / " + rs.getString("치즈") + " / " + rs.getString("야채") + " / " + rs.getString("소스"));
+                System.out.println("수량 : " + rs.getInt("수량"));
+                System.out.println("합계 : " + rs.getInt("합계"));
+                total += rs.getInt("합계");
+                System.out.println("-------------------------------------");
+            }
+            System.out.println("결재하실 총 금액은 " + total + "원 입니다.");
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(rs);
+        Common.close(stmt);
+        Common.close(conn);
+    }
+
+    public void orderUpdate() {
+        System.out.print("변경을 원하는 메뉴명을 입력하세요 : ");
+        String menuName = sc.next();
+        System.out.print("다시 주문 할 메뉴 : ");
+        String reMenuName = sc.next();
+        System.out.print("수 량 : ");
+        int howMany = sc.nextInt();
+
+        String sql = "UPDATE ORDER_TABLE SET 메뉴이름 = ?, 수량 = ? WHERE 메뉴이름 = ?";
+
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, reMenuName);
+            pStmt.setInt(2, howMany);
+            pStmt.setString(3, menuName);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(pStmt);
+        Common.close(conn);
+    }
+
+    public void orderDelete() {
+        System.out.print("삭제할 메뉴를 입력하세요 : ");
+        String menuName = sc.next();
+        String sql = "DELETE FROM ORDER_TABLE WHERE 메뉴이름 = ?";
+
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, menuName);
+            pStmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(pStmt);
+        Common.close(conn);
+    }
+
+    // 총 주문량을 확인하기위해 완됴된 주문을 저장하는 테이블과 연동하는 코딩
+    public void setOrder() {
+        String sql_fin = "INSERT INTO FINAL_ORDER "
+                + "SELECT ORDER_TABLE.회원번호, ORDER_TABLE.메뉴이름, ORDER_TABLE.사이즈, 빵, 치즈, 야채, 소스, 수량, ((메뉴가격+추가금액)*수량) AS 합계"
+                + "FROM ORDER_TABLE, MENU, SIZE_TABLE, OPTION_TABLE "
+                + "WHERE ORDER_TABLE.메뉴이름 = MENU.메뉴이름"
+                + "AND ORDER_TABLE.사이즈 = SIZE_TABLE.사이즈"
+                + "AND ORDER_TABLE.주문번호 = OPTION_TABLE.주문번호";
+
+        try {
+            conn = Common.getConnection();
+            stmt = conn.createStatement();
+            int rst = stmt.executeUpdate(sql_fin);
+            Common.close(rs);
+            Common.close(stmt);
+            Common.close(conn);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+}
