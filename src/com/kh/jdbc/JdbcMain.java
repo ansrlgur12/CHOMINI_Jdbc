@@ -18,7 +18,7 @@ public class JdbcMain {
         MenuDao menuDao = new MenuDao();
         while (true) { // 로그인/회원정보
             System.out.println("========= 인스타쌜드위취 =========");
-            System.out.print("[1]로그인 [2]회원가입 [3]종료 \n -> ");
+            System.out.print("[1]로그인 [2]회원가입 [3]종료 [0]관리자모드\n -> ");
             int selNum = sc.nextInt();
             switch (selNum) {
                 case 1:
@@ -49,6 +49,14 @@ public class JdbcMain {
                 case 3:
                     System.out.println("시스템을 종료합니다");
                     return;
+                case 0:
+                    System.out.print("비밀번호를 입력하세요 : ");
+                    String pwd = sc.next();
+                    if (pwd.equalsIgnoreCase("0000")) {
+                        System.out.println("관리자 모드로 접속합니다");
+                        return;
+                    } else System.out.println("비밀번호 오류입니다");
+                    continue;
             }
 
 
