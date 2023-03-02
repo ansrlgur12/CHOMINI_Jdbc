@@ -7,10 +7,10 @@ import java.sql.Statement;
 
 public class Common {
     final static String ORACLE_URL = "jdbc:oracle:thin:@localhost:1521:xe";
-//    final static String ORACLE_ID = "test_user1";
-    final static String ORACLE_ID = "Scott";
-//    final static String ORACLE_PWD = "1234";
-    final static String ORACLE_PWD = "TIGER";
+    final static String ORACLE_ID = "test_user1";
+    //final static String ORACLE_ID = "Scott";
+    final static String ORACLE_PWD = "1234";
+    //final static String ORACLE_PWD = "TIGER";
     final static String ORACLE_DRV = "oracle.jdbc.driver.OracleDriver";
 
     public static Connection getConnection() {
@@ -29,7 +29,7 @@ public class Common {
         try {
             if (conn != null && !conn.isClosed()) {
                 conn.close();
-                System.out.println("Connection 해제 성공");
+             //   System.out.println("Connection 해제 성공");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -40,7 +40,7 @@ public class Common {
         try {
             if (stmt != null && !stmt.isClosed()) {
                 stmt.close();
-                System.out.println("Statement 해제 성공");
+              //  System.out.println("Statement 해제 성공");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -50,7 +50,7 @@ public class Common {
         try {
             if (rSet != null && !rSet.isClosed()) {
                 rSet.close();
-                System.out.println("ResultSet 해제 성공");
+               // System.out.println("ResultSet 해제 성공");
             }
         } catch (Exception e) {
             e.printStackTrace();

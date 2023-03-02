@@ -1,35 +1,79 @@
 package com.kh.jdbc;
 
-import com.kh.jdbc.dao.CusDao;
-import com.kh.jdbc.dao.MenuDao;
-import com.kh.jdbc.dao.OptDao;
-import com.kh.jdbc.dao.SizeDao;
+import com.kh.jdbc.dao.*;
 import com.kh.jdbc.vo.CusVO;
 import com.kh.jdbc.vo.MenuVO;
 import com.kh.jdbc.vo.OptVO;
 import com.kh.jdbc.vo.SizeVO;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class JdbcMain {
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        OrderDao orderDao = new OrderDao();
+        CusDao cusDao = new CusDao();
+        MenuDao menuDao = new MenuDao();
+        while (true) { // 로그인/회원정보
+            System.out.println("========= 인스타쌜드위취 =========");
+            System.out.print("[1]로그인 [2]회원가입 [3]종료 \n -> ");
+            int selNum = sc.nextInt();
+            switch (selNum) {
+                case 1:
+                    boolean isWrongCus = true;
+                    while (isWrongCus) {
+                        int cusNo = cusDao.login();
+                        if (cusNo != -1) {
+                            isWrongCus = false;
+                            System.out.println("반갑습니당~~ 하이");
+                            continue;
+                        } else {
+                            System.out.println("--로그인 실패--");
+                            System.out.print("[1] 로그인 [2] 회원가입 \n -> ");
+                        }
 
-       // CusDao dao = new CusDao();
-       // List<CusVO> list = dao.cusSelect();
-       // dao.cusSelectPrint(list);
+                        int tempNum = sc.nextInt();
+                        if (tempNum == 1) continue;
+                        else if (tempNum == 2) break;
+                    }
+                    if (!isWrongCus) {
+                        break;
+                    }
 
-       // MenuDao dao = new MenuDao();
-       // List<MenuVO> list = dao.menuSelect();
-       // dao.menuSelectPrint(list);
-
-//        SizeDao dao = new SizeDao();
-//        List<SizeVO> list = dao.sizeSelect();
-//        dao.sizeSelectPrint(list);
-
-        OptDao dao = new OptDao();
-        List<OptVO> list = dao.optSelect();
-        dao.optSelectPrint(list);
+                case 2:
+                    cusDao.CusInsert();
+                    System.out.println("회원가입을 완료했습니다.");
+                    continue;
+                case 3:
+                    System.out.println("시스템을 종료합니다");
+                    return;
+            }
 
 
+            while (true) {
+                System.out.print("[1] 메뉴보기 [2] 주문하기 [3] 결제 \n-> ");
+                int selNum2 = sc.nextInt();
+                switch (selNum2) {
+                    case 1:
+                        List<MenuVO> list = menuDao.menuSelect();
+                        menuDao.menuSelectPrint(list);
+                        break;
+                    case 2:
+
+                        orderDao.orderInsert();
+
+                        break;
+                    case 3:
+                        System.out.println("여기는 결제");
+                        break;
+
+                }
+            }
+
+
+        }
     }
 }
+

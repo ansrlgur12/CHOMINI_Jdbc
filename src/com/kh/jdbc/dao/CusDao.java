@@ -112,4 +112,56 @@ public class CusDao {
         Common.close(pStmt);
         Common.close(conn);
     }
+
+    public int login() {
+
+        int cusNo = 0;
+        System.out.print("이름을 입력 : ");
+        String cusName = sc.next();
+        System.out.print("핸드폰번호 마지막 4자리 입력 : ");
+        String phone = sc.next();
+
+        try {
+            String sql = "SELECT * FROM CUSTOMER WHERE 고객이름 = ? AND SUBSTR(전화번호, 10,4) = ?";
+            conn = Common.getConnection(); // 연결 생성
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, cusName);
+            pStmt.setString(2, phone);
+            rs = pStmt.executeQuery();
+            if (rs.next()) {
+                cusNo = rs.getInt("회원번호");
+            } else cusNo = -1;
+            Common.close(rs);
+            Common.close(pStmt);
+            Common.close(conn);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+        if (cusNo != -1) System.out.print("회원번호 " + cusNo + " " + cusName + "님 ");
+        return cusNo;
+
+    }
+
+    public void CusInsert() {
+        System.out.println("회원 가입을 진행 합니다");
+
+        System.out.print("고객이름 : ");
+        String cusName = sc.next();
+        System.out.print("전화번호 : ");
+        String phone = sc.next();
+
+        String sql = "INSERT INTO CUSTOMER (회원번호, 고객이름, 전화번호) VALUES (회원번호.NEXTVAL, ?, ?)";
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, cusName);
+            pStmt.setString(2, phone);
+            pStmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(pStmt);
+        Common.close(conn);
+    }
 }
