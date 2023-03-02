@@ -1,0 +1,185 @@
+    public void orderInsert() {
+        System.out.println("메뉴 번호를 입력하세요");
+        System.out.print("[1]클럽샌드위치 [2]BLT샌드위치 [3]에그샌드위치 [4]참치샌드위치 [5]연어샌드위치 [6]콥샐러드 [7]두부샐러드 [8]에그샐러드 [9]참치샐러드 [10]연어샐러드");
+        int selMenu = sc.nextInt();
+        String menuName = null;
+        while(true) {
+            switch(selMenu) {
+                case 1:
+                    menuName = "클럽샌드위치"; break;
+
+                case 2:
+                    menuName = "BLT샌드위치"; break;
+
+                case 3:
+                    menuName = "에그샌드위치"; break;
+
+                case 4:
+                    menuName = "참치샌드위치"; break;
+
+                case 5:
+                    menuName = "연어샌드위치"; break;
+
+                case 6:
+                    menuName = "콥샐러드"; break;
+
+                case 7:
+                    menuName = "두부샐러드"; break;
+
+                case 8:
+                    menuName = "에그샐러드"; break;
+
+                case 9:
+                    menuName = "참치샐러드"; break;
+
+                case 10:
+                    menuName = "연어샐러드"; break;
+
+                default:
+                    System.out.println("주문을 다시 확인하세요 ^___________^");
+            }
+            break;
+        }
+        System.out.println("사이즈를 선택하세요 : ");
+        int selSize = sc.nextInt();
+        String size = null;
+        while(true) {
+            switch (selSize) {
+                case 1:
+                    size = "S"; break;
+
+                case 2:
+                    size = "M"; break;
+
+                case 3:
+                    size = "L"; break;
+            }
+            break;
+        }
+        System.out.println("수량을 입력 하세요 : ");
+        int howMany = sc.nextInt();
+        System.out.println("옵션을 선택하세요");
+        System.out.print("[1]화이트 [2]파마산오레가노 [3]위트 [4]허니오트 [5]하티 [6]플랫브래드 [7]빵X샐러드" +
+                "\n 빵 종류 선택 : ");
+        int selBreadType = sc.nextInt();
+        String bread;
+        while(true) {
+            switch (selBreadType) {
+                case 1 :
+                    bread = "화이트"; break;
+                case 2 :
+                    bread = "파마산오레가노"; break;
+                case 3 :
+                    bread = "위트"; break;
+                case 4 :
+                    bread = "허니오트"; break;
+                case 5 :
+                    bread = "하티"; break;
+                case 6 :
+                    bread = "플랫브레드"; break;
+                default :
+                    System.out.println("보기에 있는걸 시켜야죠"); continue;
+            }
+            if(selBreadType == 7) System.out.println("X"); break;
+        }
+
+        System.out.print("[1]아메리칸치즈 [2]슈레드치즈 [3]모차렐라치즈 [4]선택안함" +
+                "\n원하는 치즈 종류 : ");
+        int selCheeseType = sc.nextInt();
+        String cheese;
+        while(true) {
+            switch (selCheeseType) {
+                case 1 :
+                    cheese = "아메리칸치즈"; break;
+                case 2 :
+                    cheese = "슈레드치즈"; break;
+                case 3 :
+                    cheese = "모차렐라치즈"; break;
+                default :
+                    System.out.println("보기에있는걸 시켜야죵!"); continue;
+            }
+            if(selCheeseType == 4) System.out.println("선택안함"); break;
+        }
+        System.out.println("야채를 선택하세요");
+        System.out.print("[1]양상추 [2]토마토 [3]오이 [4]피망 [5]양파 [6]피클 [7]할라피뇨 [8]선택안함 : ");
+        int selVeg = sc.nextInt();
+        String vegetable;
+        while(true) {
+            switch (selVeg) {
+                case 1 :
+                    vegetable = "양상추"; break;
+                case 2 :
+                    vegetable = "토마토"; break;
+                case 3 :
+                    vegetable = "오이"; break;
+                case 4 :
+                    vegetable = "피망"; break;
+                case 5 :
+                    vegetable = "양파"; break;
+                case 6:
+                    vegetable = "피클"; break;
+                case 7:
+                    vegetable = "할라피뇨"; break;
+                default :
+                    System.out.println("선택안함"); continue;
+            }
+            if(selVeg ==8) System.out.println("선택안함"); break;
+        }
+        System.out.println("소스를 선택하세요");
+        System.out.print("[1]머스타드 [2]레드와인식초 [3]스위트어니언 [4]허니머스타드 [5]스위트칠리 [6]스모크바비큐 [7]랜치 [8]마요네즈 [9]핫칠리 [10]홀스래디쉬 [11]올리브오일 [12]소금 [13]후추 [14]선택안함 : ");
+        int selSau = sc.nextInt();
+        String sauce;
+        while(true) {
+            switch (selSau) {
+                case 1 :
+                    sauce= "머스타드"; break;
+                case 2 :
+                    sauce = "레드와인식초"; break;
+                case 3 :
+                    sauce = "스위트어니언"; break;
+                case 4 :
+                    sauce = "허니머스타드"; break;
+                case 5 :
+                    sauce = "스위트칠리"; break;
+                case 6:
+                    sauce = "스모크바비큐"; break;
+                case 7:
+                    sauce = "랜치"; break;
+                case 8:
+                    sauce = "마요네즈"; break;
+                case 9:
+                    sauce = "핫칠리"; break;
+                case 10:
+                    sauce = "홀스래디쉬"; break;
+                case 11:
+                    sauce = "올리브오일"; break;
+                case 12:
+                    sauce = "소금"; break;
+                case 13:
+                    sauce = "후추"; break;
+                default :
+                    System.out.println("선택안함"); continue;
+            }
+            if(selVeg ==14) System.out.println("선택안함"); break;
+        }
+
+        String sql = "INSERT INTO ORDER_BASKET(메뉴이름, 사이즈, 수량, 빵, 치즈, 야채, 소스) VALUES(?,?,?,?,?,?,?);";
+
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, menuName);
+            pStmt.setString(2, size);
+            pStmt.setInt(3, howMany);
+            pStmt.setString(4, bread);
+            pStmt.setString(5, cheese);
+            pStmt.setString(6, vegetable);
+            pStmt.setString(7, sauce);
+            int ret = stmt.executeUpdate(sql);
+            System.out.println("Return : " + ret);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(stmt);
+        Common.close(conn);
+    }
