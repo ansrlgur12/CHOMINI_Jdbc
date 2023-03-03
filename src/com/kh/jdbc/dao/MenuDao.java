@@ -27,6 +27,7 @@ public class MenuDao {
             String sql = "SELECT * FROM MENU";
             rs = stmt.executeQuery(sql);
 
+            System.out.println("===============메뉴 조회==================");
             while(rs.next()) {
                 String menuName = rs.getString("메뉴이름");
                 int price = rs.getInt("메뉴가격");

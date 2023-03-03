@@ -10,12 +10,13 @@ import java.util.Scanner;
 public class JdbcMain {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        OrderDao orderDao = new OrderDao();
+        TempBasketDao tempBasketDao = new TempBasketDao();
+        OrderListDao orderDao = new OrderListDao();
         CusDao cusDao = new CusDao();
         MenuDao menuDao = new MenuDao();
         while (true) { // 로그인/회원정보
             System.out.println("========= 인스타쌜드위취 =========");
-            System.out.print("[1] 로그인 [2] 회원가입 [3] 종료    [0] 관리자모드\n -> ");
+            System.out.print("[1] 로그인 [2] 회원가입 [3] 종료    [0] 관리자모드\n ☞ ");
             int selNum = sc.nextInt();
             switch (selNum) {
                 case 1:
@@ -28,7 +29,7 @@ public class JdbcMain {
                             continue;
                         } else {
                             System.out.println("--- 로그인 실패!! ---");
-                            System.out.print("[1] 로그인 [2] 회원가입 \n -> ");
+                            System.out.print("[1] 로그인 [2] 회원가입 \n ☞ ");
                         }
 
                         int tempNum = sc.nextInt();
@@ -47,14 +48,14 @@ public class JdbcMain {
                     System.out.println("시스템을 종료합니다");
                     return;
                 case 0:
-                    System.out.print("비밀번호를 입력하세요 : ");
+                    System.out.print("비밀번호를 입력하세요 \n☞ ");
                     String pwd = sc.next();
                     if (pwd.equalsIgnoreCase("0000")) {
                         System.out.println("====================");
                         System.out.println("관리자 모드로 접속합니다");
                         System.out.println("====================");
                         while (true) {
-                            System.out.print("[1] 메뉴관리  [2] 회원관리  [3] 매출조회  [4] 종료 \n-> ");
+                            System.out.print("[1] 메뉴관리  [2] 회원관리  [3] 매출조회  [4] 메뉴별판매현황  [5] VIP   [6] 종료 \n☞ ");
                             int num = sc.nextInt();
                             switch (num) {
                                 case 1 :
@@ -65,9 +66,18 @@ public class JdbcMain {
                                     break;
                                 case 3 :
                                     System.out.println("매출조회입니다.");
+                                    orderDao.dailySales();
+                                    break;
+                                case 4 :
+                                    orderDao.menuCount();
                                     break;
 
-                                case 4 :
+                                case 5 :
+                                    orderDao.vip();
+                                    break;
+
+
+                                case 6 :
                                     System.out.println("관리자 모드를 종료합니다.");
                                     return;
                                 default:
@@ -82,32 +92,49 @@ public class JdbcMain {
             }
 
 
+            List<MenuVO> list = menuDao.menuSelect();
+            menuDao.menuSelectPrint(list);
+            System.out.print("[1] 주문하기 [2] 장바구니 [3] 나가기(주문취소) \n-☞ ");
             while (true) {
-                System.out.print("[1] 메뉴보기 [2] 주문하기 [3] 결제 \n-> ");
                 int selNum2 = sc.nextInt();
                 switch (selNum2) {
                     case 1:
-                        List<MenuVO> list = menuDao.menuSelect();
-                        menuDao.menuSelectPrint(list);
-                        System.out.println("사이즈별로 추가금액이 발생합니다!! (M : + 500원 , L : + 1000원)");
-                        System.out.println();
+                        tempBasketDao.tempBasketInsert();
                         break;
                     case 2:
 
-                        orderDao.orderInsert();
-
+                        tempBasketDao.printBasket();
                         break;
                     case 3:
-                        System.out.println("여기는 결제");
-                        List<OrdercheckVO> list1 = orderDao.orderCheck();
-                        orderDao.orderSelectPrint(list1);
-                        break;
-
+                        System.out.println("여기는 결제-> 주문취소로 변경");
+                        System.out.println("안녕히가세용~~");
+                        return;
                 }
-            }
-
-
-        }
-    }
+                while (true) {
+                    System.out.println();
+                    System.out.print("[1]추가주문 [2]장바구니보기 [3]주문변경 [4]주문취소 [5]결제하기 \n-☞ ");
+                    int selNum3 = sc.nextInt();
+                    switch (selNum3) {
+                        case 1:
+                            tempBasketDao.tempBasketInsert();
+                            break;
+                        case 2:
+                            tempBasketDao.printBasket();
+                            break;
+                        case 3 :
+                            tempBasketDao.tempBasketUpdate();
+                            break;
+                        case 4 :
+                            tempBasketDao.tempBasketDelete();
+                            break;
+                        case 5:
+                            System.out.println("결제가 완료되었습니다 감사륑~");
+                            System.out.println("여기서 TEMP_BASKET에서 ORDER_LIST로 인서트! ");
+                            tempBasketDao.finalInsertIntoOrderList();
+                            return;
+                    } // 추가주문 switch 끝
+                } // 추가주문 while 끝
+            } // 주문 while 끝
+        } // 로그인/회원정보 끝
+    } // main 끝
 }
-

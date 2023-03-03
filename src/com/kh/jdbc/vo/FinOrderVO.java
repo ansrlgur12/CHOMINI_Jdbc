@@ -1,4 +1,5 @@
 package com.kh.jdbc.vo;
+import javax.swing.plaf.PanelUI;
 import java.sql.Date;
 
     public class FinOrderVO {
@@ -26,6 +27,9 @@ import java.sql.Date;
             this.sauce = sauce;
             this.howMany = howMany;
            // this.total = total;
+        }
+        public FinOrderVO(Date date) {
+            this.date = date;
         }
 
         public Date getDate() {
