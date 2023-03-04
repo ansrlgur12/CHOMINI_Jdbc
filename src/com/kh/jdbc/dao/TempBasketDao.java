@@ -1,8 +1,10 @@
 package com.kh.jdbc.dao;
 
 import com.kh.jdbc.util.Common;
+import com.kh.jdbc.vo.MenuVO;
 
 import java.sql.*;
+import java.util.List;
 import java.util.Scanner;
 
 public class TempBasketDao {
@@ -11,6 +13,7 @@ public class TempBasketDao {
     PreparedStatement pStmt = null;
     ResultSet rs = null;
     Scanner sc = new Scanner(System.in);
+    MenuDao menuDao = new MenuDao();
 
 
     public void tempBasketInsert() {
@@ -18,45 +21,54 @@ public class TempBasketDao {
         int customNo = sc.nextInt();
 
         String menuName;
-        while (true) {
-            System.out.println();
-            System.out.println("※ 메뉴 번호를 입력하세요");
-            System.out.print("[1]클럽샌드위치 [2]BLT샌드위치 [3]에그샌드위치 [4]참치샌드위치 [5]연어샌드위치\n ☞ ");
-            int selMenu = sc.nextInt();
-            switch (selMenu) {
-                case 1:
-                    menuName = "클럽샌드위치";
-                    break;
-
-                case 2:
-                    menuName = "BLT샌드위치";
-                    break;
-
-                case 3:
-                    menuName = "에그샌드위치";
-                    break;
-
-                case 4:
-                    menuName = "참치샌드위치";
-                    break;
-
-                case 5:
-                    menuName = "연어샌드위치";
-                    break;
-
-
-                default:
-                    System.out.println("선택하신 번호를 다시 확인하세요");
-                    selMenu = 0;
-                    continue;
-            }
-            break;
-        }
+        System.out.println();
+        List<MenuVO> list = menuDao.menuSelect();
+        menuDao.menuSelectPrint(list);
+        System.out.println();
+        System.out.println("※ 메뉴 이름 입력하세요 \n☞ ");
+        String selMenu = sc.next();
+//        while (true) {
+//            System.out.println();
+//            System.out.println("※ 메뉴 번호를 입력하세요");
+//            List<MenuVO> list = menuDao.menuSelect();
+//            menuDao.menuSelectPrint(list);
+//            System.out.print("[1]클럽샌드위치 [2]BLT샌드위치 [3]에그샌드위치 [4]참치샌드위치 [5]연어샌드위치\n ☞ ");
+//            int selMenu = sc.nextInt();
+//            switch (selMenu) {
+//                case 1:
+//                    menuName = "클럽샌드위치";
+//                    break;
+//
+//                case 2:
+//                    menuName = "BLT샌드위치";
+//                    break;
+//
+//                case 3:
+//                    menuName = "에그샌드위치";
+//                    break;
+//
+//                case 4:
+//                    menuName = "참치샌드위치";
+//                    break;
+//
+//                case 5:
+//                    menuName = "연어샌드위치";
+//                    break;
+//
+//
+//                default:
+//                    System.out.println("선택하신 번호를 다시 확인하세요");
+//                    selMenu = 0;
+//                    continue;
+//            }
+//            break;
+//        }
 
         String size = null;
         while (true) {
             System.out.println();
             System.out.println("※ 사이즈 번호를 입력하세요 ");
+            System.out.println("※ M사이즈 + 500원 L사이즈 + 1000원");
             System.out.print("[1] S  [2] M  [3] L  \n ☞ ");
             int selSize = sc.nextInt();
 
@@ -249,7 +261,7 @@ public class TempBasketDao {
             conn = Common.getConnection();
             pStmt = conn.prepareStatement(sql);
             pStmt.setInt(1, customNo);
-            pStmt.setString(2, menuName);
+            pStmt.setString(2, selMenu);
             pStmt.setString(3, size);
             pStmt.setString(4, bread);
             pStmt.setString(5, cheese);
@@ -299,47 +311,57 @@ public class TempBasketDao {
     }
 
     public void tempBasketUpdate() {
+
         System.out.print("변경을 원하는 주문번호를 입력하세요 ☞ ");
         int tempOrderNo = sc.nextInt();
-        String menuName;
-        while (true) {
-            System.out.println();
-            System.out.println("※ 메뉴 번호를 입력하세요");
-            System.out.print("[1] 클럽샌드위치 [2] BLT샌드위치 [3] 에그샌드위치 [4] 참치샌드위치 [5] 연어샌드위치\n ☞ ");
-            int selMenu = sc.nextInt();
-            switch (selMenu) {
-                case 1:
-                    menuName = "클럽샌드위치";
-                    break;
+        System.out.println();
+        List<MenuVO> list = menuDao.menuSelect();
+        menuDao.menuSelectPrint(list);
+        System.out.println();
+        System.out.println("※ 메뉴 이름 입력하세요 \n☞ ");
+        String selMenu = sc.next();
+//        while (true) {
+//            System.out.println();
+//            System.out.println("※ 메뉴 번호를 입력하세요");
+//            List<MenuVO> list = menuDao.menuSelect();
+//            menuDao.menuSelectPrint(list);
+//            System.out.print("\n ☞ ");
 
-                case 2:
-                    menuName = "BLT샌드위치";
-                    break;
-
-                case 3:
-                    menuName = "에그샌드위치";
-                    break;
-
-                case 4:
-                    menuName = "참치샌드위치";
-                    break;
-
-                case 5:
-                    menuName = "연어샌드위치";
-                    break;
-
-                default:
-                    System.out.println("선택하신 번호를 다시 확인하세요");
-                    selMenu = 0;
-                    continue;
-            }
-            break;
-        }
+//            int selMenu = sc.nextInt();
+//            switch (selMenu) {
+//                case 1:
+//                    menuName = "클럽샌드위치";
+//                    break;
+//
+//                case 2:
+//                    menuName = "BLT샌드위치";
+//                    break;
+//
+//                case 3:
+//                    menuName = "에그샌드위치";
+//                    break;
+//
+//                case 4:
+//                    menuName = "참치샌드위치";
+//                    break;
+//
+//                case 5:
+//                    menuName = "연어샌드위치";
+//                    break;
+//
+//                default:
+//                    System.out.println("선택하신 번호를 다시 확인하세요");
+//                    selMenu = 0;
+//                    continue;
+//            }
+//            break;
+//        }
 
         String size = null;
         while (true) {
             System.out.println();
             System.out.println("※ 사이즈 번호를 입력하세요 ");
+            System.out.println("※ M사이즈 + 500원 L사이즈 + 1000원");
             System.out.print("[1] S  [2] M  [3] L  \n ☞ ");
             int selSize = sc.nextInt();
 
@@ -530,7 +552,7 @@ public class TempBasketDao {
         try {
             conn = Common.getConnection();
             pStmt = conn.prepareStatement(sql);
-            pStmt.setString(1, menuName);
+            pStmt.setString(1, selMenu);
             pStmt.setString(2, size);
             pStmt.setString(3, bread);
             pStmt.setString(4, cheese);

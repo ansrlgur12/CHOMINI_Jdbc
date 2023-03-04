@@ -100,18 +100,28 @@ public class CusDao {
     }
 
     public void cusDelete() {
-        System.out.print("삭제할 회원의 이름을 입력하세요 ☞ ");
-        String cusName = sc.next();
-        String sql = "DELETE FROM CUSTOMER WHERE 고객이름 = ?";
+        System.out.print("삭제할 회원의 회원번호를 입력하세요 ☞ ");
+        int cusNo = sc.nextInt();
+        String sql = "DELETE FROM ORDER_LIST WHERE 회원번호 = ?";
         try {
             conn = Common.getConnection();
             pStmt = conn.prepareStatement(sql);
-            pStmt.setString(1, cusName);
+            pStmt.setInt(1, cusNo);
+            pStmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String sql2 = "DELETE FROM CUSTOMER WHERE 회원번호 = ?";
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql2);
+            pStmt.setInt(1, cusNo);
             pStmt.executeUpdate();
             System.out.println("삭제 완료!!");
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         Common.close(pStmt);
         Common.close(conn);
     }
@@ -141,7 +151,10 @@ public class CusDao {
             e.printStackTrace();
             return -1;
         }
-        if (cusNo != -1) System.out.print("회원번호 " + cusNo + " " + cusName + "님 ");
+        if (cusNo != -1) {
+            System.out.println();
+            System.out.print("회원번호 " + cusNo + "번 " + cusName + "님 ");
+        }
         return cusNo;
 
     }

@@ -5,9 +5,11 @@ public class MenuVO {
     private int price;
 
     public MenuVO(String menuName, int price) {
+
         this.menuName = menuName;
         this.price = price;
     }
+
 
     public String getMenuName() {
         return menuName;

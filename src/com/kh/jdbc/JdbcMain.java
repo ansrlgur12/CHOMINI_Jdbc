@@ -16,7 +16,7 @@ public class JdbcMain {
         MenuDao menuDao = new MenuDao();
         while (true) { // 로그인/회원정보
             System.out.println("========= 인스타쌜드위취 =========");
-            System.out.print("[1] 로그인 [2] 회원가입 [3] 종료          [0] 관리자모드\n ☞ ");
+            System.out.print("[1] 로그인 [2] 회원가입 [3] 종료  [0] 관리자모드\n ☞ ");
             int selNum = sc.nextInt();
             switch (selNum) {
                 case 1:
@@ -25,7 +25,8 @@ public class JdbcMain {
                         int cusNo = cusDao.login();
                         if (cusNo != -1) {
                             isWrongCus = false;
-                            System.out.println("님  '어서오SAN! 맛있SAN! 먹어보SAN!' 방문을 환영합니다 ♥^____^♥\"");
+                            System.out.println("님 '어서오SAN! 맛있SAN! 먹어보SAN!' 방문을 환영합니다 ♥^____^♥\"");
+                            System.out.println();
                             continue;
                         } else {
                             System.out.println("이름과 핸드폰번호를 확인하세요");
@@ -55,7 +56,7 @@ public class JdbcMain {
                         System.out.println("관리자 모드로 접속합니다");
                         System.out.println("====================");
                         while (true) {
-                            System.out.print("[1] 메뉴관리  [2] 회원관리  [3] 매출조회  [4] 메뉴별판매현황  [5] VIP   [6] 종료 \n☞ ");
+                            System.out.print("[1] 메뉴관리  [2] 회원관리  [3] 매출조회  [4] 메뉴별판매현황  [5] VIP  [6] 재료소진 확인  [7] 종료 \n☞ ");
                             int num = sc.nextInt();
                             switch (num) {
                                 case 1 :
@@ -75,11 +76,13 @@ public class JdbcMain {
                                 case 5 :
                                     orderDao.vip();
                                     break;
-                                case 7 :
-                                    orderDao.checkList();
-
                                 case 6 :
+                                    orderDao.checkList();
+                                    break;
+
+                                case 7 :
                                     System.out.println("관리자 모드를 종료합니다.");
+                                    System.out.println();
                                     return;
                                 default:
                                     System.out.println("선택하신 번호를 다시 확인하세요.");
@@ -93,8 +96,7 @@ public class JdbcMain {
             }
 
 
-            List<MenuVO> list = menuDao.menuSelect();
-            menuDao.menuSelectPrint(list);
+            System.out.println();
             System.out.print("[1] 주문하기 [2] 장바구니 [3] 나가기(주문취소) \n-☞ ");
             while (true) {
                 int selNum2 = sc.nextInt();
@@ -107,7 +109,6 @@ public class JdbcMain {
                         tempBasketDao.printBasket();
                         break;
                     case 3:
-                        System.out.println("여기는 결제-> 주문취소로 변경");
                         System.out.println("안녕히가세용~~");
                         return;
                 }

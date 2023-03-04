@@ -82,6 +82,7 @@ public class OrderListDao {
             rs = pStmt.getResultSet();
 
             int total = 0;
+            System.out.println();
             System.out.println("================== [" + day + " 주문내역] ==================");
             System.out.println("  ♡날  짜♡    ♡메 뉴♡   ♡사이즈♡  ♡수량♡   ♡합계♡");
             while (rs.next()) {
@@ -95,6 +96,7 @@ public class OrderListDao {
             }
             System.out.println("해당 날짜의 총 매출 금액은 " + total + "원 입니다.");
             System.out.println("=====================================================");
+            System.out.println();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -115,12 +117,14 @@ public class OrderListDao {
             pStmt = conn.prepareStatement(sql);
             pStmt.executeUpdate();
             rs = pStmt.getResultSet();
-
+            System.out.println();
             System.out.println("=========== [메뉴별 판매현황] ==========");
             System.out.println("    ☆메뉴 이름☆        ☆판매 수량☆");
             while (rs.next()) {
                 System.out.printf("%10s",rs.getString("메뉴이름") );
                 System.out.printf("%15s ", rs.getInt("판매수량"));
+                System.out.println();
+                System.out.println("=====================================================");
                 System.out.println();
             }
         }catch (Exception e) {
@@ -148,6 +152,7 @@ public class OrderListDao {
             pStmt.executeUpdate();
             rs = pStmt.getResultSet();
             int num = 1;
+            System.out.println();
             System.out.println("=========== [ohoh 우리의 ☆VIP★ ohoh] ==========");
             System.out.println("    ☆찬란한 우리의 고객님☆     ☆방문횟수☆");
             while (rs.next()) {
@@ -155,6 +160,8 @@ public class OrderListDao {
                 System.out.printf("%-10s" , num + "등");
                 System.out.printf("%-3s", rs.getString("고객이름") );
                 System.out.printf("%15s ", rs.getInt("방문횟수")+"회");
+                System.out.println();
+                System.out.println("=====================================================");
                 System.out.println();
                 num++;
             }
@@ -168,40 +175,160 @@ public class OrderListDao {
 
 
     public void checkList() { // 월별 재료 소진 확인
-        System.out.print("조회할 재료를 입력하세요 : ");
-        String a = sc.next();
-        System.out.print("조회할 달을 입력하세요 : ");
-        int b = sc.nextInt();
-        String sql = "SELECT ?, COUNT(*)\n" +
-                "    FROM ORDER_LIST\n" +
-                "    WHERE EXTRACT(MONTH FROM 주문날짜) = ?\n" +
-                "    GROUP BY ?\n" +
-                "    ORDER BY 2 DESC";
-        try {
-            conn = Common.getConnection();
-            pStmt = conn.prepareStatement(sql);
-            pStmt.setString(1, a);
-            pStmt.setInt(2, b);
-            pStmt.setString(3, a);
-            pStmt.executeUpdate();
-            rs = pStmt.getResultSet();
+        int month;
+        String sql;
+        System.out.println();
+        System.out.print("※ 조회할 달을 입력하세요 \n ☞ ");
+        month = sc.nextInt();
+        System.out.println();
+        while (true) {
+            System.out.println("※ 조회할 재료명 번호를 입력하세요");
+            System.out.print("[1] 빵  [2] 치즈  [3] 야채  [4] 소스  [5] 종료\n ☞ ");
+            int selNum = sc.nextInt();
+            switch (selNum) {
 
-            int total = 0;
-            System.out.println("======= ["+ b+"월 재료 소진 내역] =======");
-            System.out.println("  빵       수량");
-            System.out.println("---------------");
-            while (rs.next()) {
-                System.out.print(rs.getString("빵") );
-                System.out.printf("%9d", rs.getInt("COUNT(*)"));
-                System.out.println();
+                case 1:
+
+                sql = "SELECT 빵, COUNT(빵)\n" +
+                        "    FROM ORDER_LIST\n" +
+                        "    WHERE EXTRACT(MONTH FROM 주문날짜) = ?\n" +
+                        "    GROUP BY 빵\n" +
+                        "    ORDER BY 2 DESC";
+                try {
+                    conn = Common.getConnection();
+                    pStmt = conn.prepareStatement(sql);
+                    pStmt.setInt(1, month);
+                    pStmt.executeUpdate();
+                    rs = pStmt.getResultSet();
+                    System.out.println();
+                    System.out.println("======= [" + month + "월 빵 소진 내역] =======");
+                    System.out.println("  빵      수량");
+                    System.out.println("----------------");
+                    while (rs.next()) {
+                        System.out.printf("%-10s", rs.getString("빵"));
+                        System.out.print(rs.getInt("COUNT(빵)"));
+                        System.out.println();
+                    }
+                    System.out.println("----------------");
+                    System.out.println();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                Common.close(rs);
+                Common.close(pStmt);
+                Common.close(conn);
+                break;
+
+                case 2:
+                   // System.out.print("조회할 달을 입력하세요 \n ☞ ");
+                   // month = sc.nextInt();
+                    sql = "SELECT 치즈, COUNT(치즈)\n" +
+                            "    FROM ORDER_LIST\n" +
+                            "    WHERE EXTRACT(MONTH FROM 주문날짜) = ?\n" +
+                            "    GROUP BY 치즈\n" +
+                            "    ORDER BY 2 DESC";
+                    try {
+                        conn = Common.getConnection();
+                        pStmt = conn.prepareStatement(sql);
+                        pStmt.setInt(1, month);
+                        pStmt.executeUpdate();
+                        rs = pStmt.getResultSet();
+                        System.out.println();
+                        System.out.println("======= [" + month + "월 치즈 소진 내역] =======");
+                        System.out.println("  치즈      수량");
+                        System.out.println("----------------");
+                        while (rs.next()) {
+                            System.out.printf("%-10s", rs.getString("치즈"));
+                            System.out.print(rs.getInt("COUNT(치즈)"));
+                            System.out.println();
+                        }
+                        System.out.println("----------------");
+                        System.out.println();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    Common.close(rs);
+                    Common.close(pStmt);
+                    Common.close(conn);
+                    break;
+
+                case 3 :
+                  //  System.out.print("조회할 달을 입력하세요 \n ☞ ");
+                  //  month = sc.nextInt();
+                    sql = "SELECT 야채, COUNT(야채)\n" +
+                            "    FROM ORDER_LIST\n" +
+                            "    WHERE EXTRACT(MONTH FROM 주문날짜) = ?\n" +
+                            "    GROUP BY 야채\n" +
+                            "    ORDER BY 2 DESC";
+                    try {
+                        conn = Common.getConnection();
+                        pStmt = conn.prepareStatement(sql);
+                        pStmt.setInt(1, month);
+                        pStmt.executeUpdate();
+                        rs = pStmt.getResultSet();
+                        System.out.println();
+                        System.out.println("======= [" + month + "월 야채 소진 내역] =======");
+                        System.out.println("  야채      수량");
+                        System.out.println("----------------");
+                        while (rs.next()) {
+                            System.out.printf("%-10s", rs.getString("야채"));
+                            System.out.print(rs.getInt("COUNT(야채)"));
+                            System.out.println();
+                        }
+                        System.out.println("----------------");
+                        System.out.println();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    Common.close(rs);
+                    Common.close(pStmt);
+                    Common.close(conn);
+                    break;
+                case 4 :
+                  //  System.out.print("조회할 달을 입력하세요 \n ☞ ");
+                  //  month = sc.nextInt();
+                    sql = "SELECT 소스, COUNT(소스)\n" +
+                            "    FROM ORDER_LIST\n" +
+                            "    WHERE EXTRACT(MONTH FROM 주문날짜) = ?\n" +
+                            "    GROUP BY 소스\n" +
+                            "    ORDER BY 2 DESC";
+                    try {
+                        conn = Common.getConnection();
+                        pStmt = conn.prepareStatement(sql);
+                        pStmt.setInt(1, month);
+                        pStmt.executeUpdate();
+                        rs = pStmt.getResultSet();
+                        System.out.println();
+                        System.out.println("======= [" + month + "월 소스 소진 내역] =======");
+                        System.out.println("  소스      수량");
+                        System.out.println("----------------");
+                        while (rs.next()) {
+                            System.out.printf("%-10s", rs.getString("소스"));
+                            System.out.print(rs.getInt("COUNT(소스)"));
+                            System.out.println();
+                        }
+                        System.out.println("----------------");
+                        System.out.println();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    Common.close(rs);
+                    Common.close(pStmt);
+                    Common.close(conn);
+                    break;
+
+                case 5 :
+                    System.out.println("재료소진 확인을 종료합니다");
+                    System.out.println();
+                    return;
+
+                default:
+                    System.out.println("선택하신 번호를 다시 확인하세요.");
+                    System.out.println();
+                    selNum = 0;
+                    continue;
+
             }
-            System.out.println("=====================================================");
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        Common.close(rs);
-        Common.close(pStmt);
-        Common.close(conn);
-
     }
 }

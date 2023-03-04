@@ -27,7 +27,7 @@ public class MenuDao {
             String sql = "SELECT * FROM MENU";
             rs = stmt.executeQuery(sql);
 
-            System.out.println("===============메뉴 조회==================");
+           // System.out.println("===============메뉴 조회==================");
             while(rs.next()) {
                 String menuName = rs.getString("메뉴이름");
                 int price = rs.getInt("메뉴가격");
@@ -45,11 +45,11 @@ public class MenuDao {
     }
 
     public void menuSelectPrint(List<MenuVO> list) {
-        System.out.println("     [메뉴]          [가격] ");
-        System.out.println("------------------------");
+        System.out.println("   [메뉴]          [가격] ");
+        System.out.println("------------------------------------");
 
         for (MenuVO e : list) {
-            System.out.print(e.getMenuName());
+            System.out.printf("%-10s", e.getMenuName());
             System.out.println("         " + e.getPrice() + "원");
            // System.out.println("-------------------------");
         }
@@ -115,6 +115,8 @@ public class MenuDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("메뉴를 삭제했습니다");
+        System.out.println();
         Common.close(pStmt);
         Common.close(conn);
     }
@@ -126,7 +128,7 @@ public class MenuDao {
             int selNum = sc.nextInt();
             switch (selNum) {
                 case 1 :
-                    System.out.println("메뉴조회입니다.");
+                    System.out.println("===============메뉴 조회==================");
                     List<MenuVO> list = menuSelect();
                     menuSelectPrint(list);
                     break;
