@@ -25,7 +25,7 @@ public class TempBasketDao {
         List<MenuVO> list = menuDao.menuSelect();
         menuDao.menuSelectPrint(list);
         System.out.println();
-        System.out.println("※ 메뉴 이름 입력하세요 \n☞ ");
+        System.out.print("※ 메뉴 이름 입력하세요 \n☞ ");
         String selMenu = sc.next();
 //        while (true) {
 //            System.out.println();
@@ -318,7 +318,7 @@ public class TempBasketDao {
         List<MenuVO> list = menuDao.menuSelect();
         menuDao.menuSelectPrint(list);
         System.out.println();
-        System.out.println("※ 메뉴 이름 입력하세요 \n☞ ");
+        System.out.print("※ 메뉴 이름 입력하세요 \n☞ ");
         String selMenu = sc.next();
 //        while (true) {
 //            System.out.println();
@@ -616,7 +616,7 @@ public class TempBasketDao {
         String sql3 = "CREATE TABLE TEMP_BASKET(\n" +
                 "    회원번호 NUMBER REFERENCES CUSTOMER,\n" +
                 "    임시주문번호 NUMBER,\n" +
-                "    메뉴이름 VARCHAR2(20),\n" +
+                "    메뉴이름 VARCHAR2(40),\n" +
                 "    사이즈   VARCHAR2(1),\n" +
                 "    빵       VARCHAR2(25),\n" +
                 "    치즈     VARCHAR2(20),\n" +
