@@ -165,4 +165,43 @@ public class OrderListDao {
         Common.close(pStmt);
         Common.close(conn);
     }
+
+
+    public void checkList() { // 월별 재료 소진 확인
+        System.out.print("조회할 재료를 입력하세요 : ");
+        String a = sc.next();
+        System.out.print("조회할 달을 입력하세요 : ");
+        int b = sc.nextInt();
+        String sql = "SELECT ?, COUNT(*)\n" +
+                "    FROM ORDER_LIST\n" +
+                "    WHERE EXTRACT(MONTH FROM 주문날짜) = ?\n" +
+                "    GROUP BY ?\n" +
+                "    ORDER BY 2 DESC";
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, a);
+            pStmt.setInt(2, b);
+            pStmt.setString(3, a);
+            pStmt.executeUpdate();
+            rs = pStmt.getResultSet();
+
+            int total = 0;
+            System.out.println("======= ["+ b+"월 재료 소진 내역] =======");
+            System.out.println("  빵       수량");
+            System.out.println("---------------");
+            while (rs.next()) {
+                System.out.print(rs.getString("빵") );
+                System.out.printf("%9d", rs.getInt("COUNT(*)"));
+                System.out.println();
+            }
+            System.out.println("=====================================================");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(rs);
+        Common.close(pStmt);
+        Common.close(conn);
+
+    }
 }

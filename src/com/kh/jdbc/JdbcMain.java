@@ -75,7 +75,8 @@ public class JdbcMain {
                                 case 5 :
                                     orderDao.vip();
                                     break;
-
+                                case 7 :
+                                    orderDao.checkList();
 
                                 case 6 :
                                     System.out.println("관리자 모드를 종료합니다.");
