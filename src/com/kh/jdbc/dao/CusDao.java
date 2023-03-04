@@ -78,9 +78,9 @@ public class CusDao {
     }
 
     public void cusUpdate(){
-        System.out.print("변경할 회원의 이름을 입력하세요 : ");
+        System.out.print("변경할 회원의 이름을 입력하세요 ☞ ");
         String cusName = sc.next();
-        System.out.print("전화번호 : ");
+        System.out.print("전화번호 ☞ ");
         String phone = sc.next();
 
         String sql = "UPDATE CUSTOMER SET 전화번호 = ? WHERE 고객이름 = ?";
@@ -100,7 +100,7 @@ public class CusDao {
     }
 
     public void cusDelete() {
-        System.out.print("삭제할 회원의 이름을 입력하세요 : ");
+        System.out.print("삭제할 회원의 이름을 입력하세요 ☞ ");
         String cusName = sc.next();
         String sql = "DELETE FROM CUSTOMER WHERE 고객이름 = ?";
         try {
@@ -119,9 +119,9 @@ public class CusDao {
     public int login() {
 
         int cusNo = 0;
-        System.out.print("이름을 입력 : ");
+        System.out.print("이름을 입력 ☞ ");
         String cusName = sc.next();
-        System.out.print("핸드폰번호 마지막 4자리 입력 : ");
+        System.out.print("핸드폰번호 마지막 4자리 입력 ☞ ");
         String phone = sc.next();
 
         try {
@@ -149,9 +149,9 @@ public class CusDao {
     public void CusInsert() {
         System.out.println("회원 가입을 진행 합니다");
 
-        System.out.print("고객이름 : ");
+        System.out.print("고객이름 ☞ ");
         String cusName = sc.next();
-        System.out.print("전화번호 : ");
+        System.out.print("전화번호 ☞ ");
         String phone = sc.next();
 
         String sql = "INSERT INTO CUSTOMER (회원번호, 고객이름, 전화번호) VALUES (회원번호.NEXTVAL, ?, ?)";
@@ -171,7 +171,7 @@ public class CusDao {
     public void CusInfo() {
         System.out.println("회원관리 메뉴입니다 ");
         while (true) {
-            System.out.print("[1]  회원조회  [2]  회원수정  [3]  회원삭제  [4]  이전메뉴 \n -> ");
+            System.out.print("[1]  회원조회  [2]  회원수정  [3]  회원삭제  [4]  이전메뉴 \n ☞ ");
             int selNum = sc.nextInt();
             switch (selNum) {
                 case 1 :
@@ -191,7 +191,7 @@ public class CusDao {
                     System.out.println("회원관리메뉴를 종료합니다.");
                     return;
                 default:
-                    System.out.println("잘못입력하셨습니다.");
+                    System.out.println("선택하신 번호를 다시 확인하세요.");
                     selNum = 0;
                     continue;
             }

@@ -16,7 +16,7 @@ public class JdbcMain {
         MenuDao menuDao = new MenuDao();
         while (true) { // 로그인/회원정보
             System.out.println("========= 인스타쌜드위취 =========");
-            System.out.print("[1] 로그인 [2] 회원가입 [3] 종료    [0] 관리자모드\n ☞ ");
+            System.out.print("[1] 로그인 [2] 회원가입 [3] 종료          [0] 관리자모드\n ☞ ");
             int selNum = sc.nextInt();
             switch (selNum) {
                 case 1:
@@ -25,10 +25,10 @@ public class JdbcMain {
                         int cusNo = cusDao.login();
                         if (cusNo != -1) {
                             isWrongCus = false;
-                            System.out.println("반갑습니당~~");
+                            System.out.println("님  '어서오SAN! 맛있SAN! 먹어보SAN!' 방문을 환영합니다 ♥^____^♥\"");
                             continue;
                         } else {
-                            System.out.println("--- 로그인 실패!! ---");
+                            System.out.println("이름과 핸드폰번호를 확인하세요");
                             System.out.print("[1] 로그인 [2] 회원가입 \n ☞ ");
                         }
 
@@ -65,7 +65,7 @@ public class JdbcMain {
                                     cusDao.CusInfo();
                                     break;
                                 case 3 :
-                                    System.out.println("매출조회입니다.");
+                                    //System.out.println("매출조회입니다.");
                                     orderDao.dailySales();
                                     break;
                                 case 4 :
@@ -81,7 +81,7 @@ public class JdbcMain {
                                     System.out.println("관리자 모드를 종료합니다.");
                                     return;
                                 default:
-                                    System.out.println("잘못 입력하셨습니다.");
+                                    System.out.println("선택하신 번호를 다시 확인하세요.");
                                     num = 0;
                                     continue;
                             }
@@ -128,8 +128,8 @@ public class JdbcMain {
                             tempBasketDao.tempBasketDelete();
                             break;
                         case 5:
-                            System.out.println("결제가 완료되었습니다 감사륑~");
-                            System.out.println("여기서 TEMP_BASKET에서 ORDER_LIST로 인서트! ");
+                            System.out.println("결제가 완료되었습니다^__^");
+                            //System.out.println("여기서 TEMP_BASKET에서 ORDER_LIST로 인서트! ");
                             tempBasketDao.finalInsertIntoOrderList();
                             return;
                     } // 추가주문 switch 끝

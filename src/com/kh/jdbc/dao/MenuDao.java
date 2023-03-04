@@ -45,22 +45,22 @@ public class MenuDao {
     }
 
     public void menuSelectPrint(List<MenuVO> list) {
-        System.out.println("     메뉴     |      가격 ");
+        System.out.println("     [메뉴]          [가격] ");
         System.out.println("------------------------");
 
         for (MenuVO e : list) {
             System.out.print(e.getMenuName());
-            System.out.println("     |    " + e.getPrice() + "원");
-            System.out.println("-------------------------");
+            System.out.println("         " + e.getPrice() + "원");
+           // System.out.println("-------------------------");
         }
 
     }
 
     public void menuInsert() {
         System.out.println("메뉴 정보를 입력하세요");
-        System.out.print("메뉴이름 : ");
+        System.out.print("메뉴이름 ☞ ");
         String menuName = sc.next();
-        System.out.print("메뉴가격 : ");
+        System.out.print("메뉴가격 ☞ ");
         int price = sc.nextInt();
 
         String sql = "INSERT INTO MENU(메뉴이름, 메뉴가격) VALUES(?,?)";
@@ -72,7 +72,7 @@ public class MenuDao {
             pStmt.setInt(2, price);
 
             int ret = pStmt.executeUpdate();
-            System.out.println("Return : " + ret);
+            //System.out.println("Return : " + ret);
             System.out.println("메뉴 추가 성공!!");
 
         }catch (Exception e) {
@@ -83,9 +83,9 @@ public class MenuDao {
     }
 
     public  void menuUpdate(){
-        System.out.print("메뉴이름을 입력하세요 : ");
+        System.out.print("메뉴이름을 입력하세요 ☞ ");
         String menuName = sc.next();
-        System.out.print("메뉴 가격 : ");
+        System.out.print("메뉴 가격 ☞ ");
         int price = sc.nextInt();
 
         String sql = "UPDATE MENU SET 메뉴가격 = ? WHERE 메뉴이름 = ?";
@@ -104,7 +104,7 @@ public class MenuDao {
     }
 
     public void menuDelete() {
-        System.out.print("삭제할 메뉴를 입력하세요 : ");
+        System.out.print("삭제할 메뉴를 입력하세요 ☞ ");
         String menuName = sc.next();
         String sql = "DELETE FROM MENU WHERE 메뉴이름 = ?";
         try {
@@ -122,7 +122,7 @@ public class MenuDao {
     public void menuInfo(){
         System.out.println("메뉴관리 입니다 ");
         while (true) {
-            System.out.print("[1]  메뉴조회  [2] 메뉴추가  [3] 메뉴수정  [4]  메뉴삭제  [5]  이전메뉴 \n -> ");
+            System.out.print("[1]  메뉴조회  [2] 메뉴추가  [3] 메뉴수정  [4]  메뉴삭제  [5]  이전메뉴 \n ☞ ");
             int selNum = sc.nextInt();
             switch (selNum) {
                 case 1 :
@@ -149,7 +149,7 @@ public class MenuDao {
                     System.out.println("회원관리메뉴를 종료합니다.");
                     return;
                 default:
-                    System.out.println("잘못입력하셨습니다.");
+                    System.out.println("선택하신 번호를 다시 확인하세요.");
                     selNum = 0;
                     continue;
             }
