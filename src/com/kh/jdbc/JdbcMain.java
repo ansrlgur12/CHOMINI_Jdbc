@@ -1,19 +1,12 @@
 package com.kh.jdbc;
 
 import com.kh.jdbc.dao.*;
-import com.kh.jdbc.vo.*;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class JdbcMain {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        TempBasketDao tempBasketDao = new TempBasketDao();
-        OrderListDao orderDao = new OrderListDao();
-        CusDao cusDao = new CusDao();
-        MenuDao menuDao = new MenuDao();
+        FinDao dao = new FinDao();
         while (true) { // 로그인/회원정보
             System.out.println("========= 인스타쌜드위취 =========");
             System.out.print("[1] 로그인 [2] 회원가입 [3] 종료  [0] 관리자모드\n ☞ ");
@@ -22,7 +15,7 @@ public class JdbcMain {
                 case 1:
                     boolean isWrongCus = true;
                     while (isWrongCus) {
-                        int cusNo = cusDao.login();
+                        int cusNo = dao.login();
                         if (cusNo != -1) {
                             isWrongCus = false;
                             System.out.println("님 '어서오SAN! 맛있SAN! 먹어보SAN!' 방문을 환영합니다 ♥^____^♥\"");
@@ -42,7 +35,7 @@ public class JdbcMain {
                     }
 
                 case 2:
-                    cusDao.CusInsert();
+                    dao.CusInsert();
                     System.out.println("회원가입을 완료했습니다.");
                     continue;
                 case 3:
@@ -60,24 +53,24 @@ public class JdbcMain {
                             int num = sc.nextInt();
                             switch (num) {
                                 case 1 :
-                                    menuDao.menuInfo();
+                                    dao.menuInfo();
                                     break;
                                 case 2 :
-                                    cusDao.CusInfo();
+                                    dao.CusInfo();
                                     break;
                                 case 3 :
                                     //System.out.println("매출조회입니다.");
-                                    orderDao.dailySales();
+                                    dao.dailySales();
                                     break;
                                 case 4 :
-                                    orderDao.menuCount();
+                                    dao.menuCount();
                                     break;
 
                                 case 5 :
-                                    orderDao.vip();
+                                    dao.vip();
                                     break;
                                 case 6 :
-                                    orderDao.checkList();
+                                    dao.checkList();
                                     break;
 
                                 case 7 :
@@ -102,11 +95,11 @@ public class JdbcMain {
                 int selNum2 = sc.nextInt();
                 switch (selNum2) {
                     case 1:
-                        tempBasketDao.tempBasketInsert();
+                        dao.tempBasketInsert();
                         break;
                     case 2:
 
-                        tempBasketDao.printBasket();
+                        dao.printBasket();
                         break;
                     case 3:
                         System.out.println("안녕히가세용~~");
@@ -118,21 +111,21 @@ public class JdbcMain {
                     int selNum3 = sc.nextInt();
                     switch (selNum3) {
                         case 1:
-                            tempBasketDao.tempBasketInsert();
+                            dao.tempBasketInsert();
                             break;
                         case 2:
-                            tempBasketDao.printBasket();
+                            dao.printBasket();
                             break;
                         case 3 :
-                            tempBasketDao.tempBasketUpdate();
+                            dao.tempBasketUpdate();
                             break;
                         case 4 :
-                            tempBasketDao.tempBasketDelete();
+                            dao.tempBasketDelete();
                             break;
                         case 5:
                             System.out.println("결제가 완료되었습니다^__^");
                             //System.out.println("여기서 TEMP_BASKET에서 ORDER_LIST로 인서트! ");
-                            tempBasketDao.finalInsertIntoOrderList();
+                            dao.finalInsertIntoOrderList();
                             return;
                     } // 추가주문 switch 끝
                 } // 추가주문 while 끝

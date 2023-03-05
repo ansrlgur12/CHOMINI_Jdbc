@@ -7,10 +7,10 @@ import java.sql.Statement;
 
 public class Common {
     final static String ORACLE_URL = "jdbc:oracle:thin:@localhost:1521:xe";
-    final static String ORACLE_ID = "test_user1";
-    //final static String ORACLE_ID = "Scott";
-    final static String ORACLE_PWD = "1234";
-    //final static String ORACLE_PWD = "TIGER";
+    //final static String ORACLE_ID = "test_user1";
+    final static String ORACLE_ID = "SCOTT";
+    //final static String ORACLE_PWD = "1234";
+    final static String ORACLE_PWD = "TIGER";
     final static String ORACLE_DRV = "oracle.jdbc.driver.OracleDriver";
 
     public static Connection getConnection() {
