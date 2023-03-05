@@ -63,7 +63,7 @@ public class FinDao {
             pStmt.setString(1, phone);
             pStmt.setString(2, cusName);
             pStmt.executeUpdate();
-            System.out.println("수정 완료!!");
+            System.out.println("회원정보가 수정되었습니다.");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -88,7 +88,7 @@ public class FinDao {
             pStmt = conn.prepareStatement(sql2);
             pStmt.setInt(1, cusNo);
             pStmt.executeUpdate();
-            System.out.println("삭제 완료!!");
+            System.out.println("회원정보가 삭제되었습니다.");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -100,9 +100,9 @@ public class FinDao {
     public int login() {
 
         int cusNo = 0;
-        System.out.print("이름을 입력 ☞ ");
+        System.out.print("성함을 입력해주세요 ☞ ");
         String cusName = sc.next();
-        System.out.print("핸드폰번호 마지막 4자리 입력 ☞ ");
+        System.out.print("핸드폰번호 마지막 4자리를 입력해주세요 ☞ ");
         String phone = sc.next();
 
         try {
@@ -138,7 +138,7 @@ public class FinDao {
         System.out.print("전화번호(010-****-****)를 입력해주세요 ☞ ");
         String phone = sc.next();
 
-        String sql = "INSERT INTO CUSTOMER (회원번호, 고객이름, 전화번호) VALUES (회원번호.NEXTVAL, ?, ?)";
+        String sql = "INSERT INTO CUSTOMER (회원번호, 고객이름, 전화번호) VALUES (seq_CUSTOMER.NEXTVAL, ?, ?)";
         try {
             conn = Common.getConnection();
             pStmt = conn.prepareStatement(sql);
@@ -236,7 +236,7 @@ public class FinDao {
 
             int ret = pStmt.executeUpdate();
             //System.out.println("Return : " + ret);
-            System.out.println("메뉴 추가 성공!!");
+            System.out.println("새로운 메뉴가 추가되었습니다.");
 
         }catch (Exception e) {
             e.printStackTrace();
@@ -951,7 +951,7 @@ public class FinDao {
         String vegetable;
         while (true) {
             System.out.println();
-            System.out.println("※ 뺄 야채 번호를 입력하세요");
+            System.out.println("※ 빼고싶은 야채 번호를 입력하세요");
             System.out.print("[1] 양상추 [2] 토마토 [3] 오이 [4] 피망 [5] 양파 [6] 피클 [7] 할라피뇨 [8] 선택안함 \n ☞ ");
             int selVeg = sc.nextInt();
             switch (selVeg) {
