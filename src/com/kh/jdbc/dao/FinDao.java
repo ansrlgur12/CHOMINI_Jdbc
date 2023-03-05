@@ -17,6 +17,7 @@ public class FinDao {
     ResultSet rs = null; // statement 동작에 대한 결과로 전달되는 DB의 내용
     Scanner sc = new Scanner(System.in);
 
+
     public List<CusVO> cusSelect() {
         List<CusVO> list = new ArrayList<>();
         try {
@@ -64,6 +65,7 @@ public class FinDao {
             pStmt.setString(2, cusName);
             pStmt.executeUpdate();
             System.out.println("회원정보가 수정되었습니다.");
+            System.out.println();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -89,6 +91,7 @@ public class FinDao {
             pStmt.setInt(1, cusNo);
             pStmt.executeUpdate();
             System.out.println("회원정보가 삭제되었습니다.");
+            System.out.println();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -97,38 +100,6 @@ public class FinDao {
         Common.close(conn);
     }
 
-    public int login() {
-
-        int cusNo = 0;
-        System.out.print("성함을 입력해주세요 ☞ ");
-        String cusName = sc.next();
-        System.out.print("핸드폰번호 마지막 4자리를 입력해주세요 ☞ ");
-        String phone = sc.next();
-
-        try {
-            String sql = "SELECT * FROM CUSTOMER WHERE 고객이름 = ? AND SUBSTR(전화번호, 10,4) = ?";
-            conn = Common.getConnection(); // 연결 생성
-            pStmt = conn.prepareStatement(sql);
-            pStmt.setString(1, cusName);
-            pStmt.setString(2, phone);
-            rs = pStmt.executeQuery();
-            if (rs.next()) {
-                cusNo = rs.getInt("회원번호");
-            } else cusNo = -1;
-            Common.close(rs);
-            Common.close(pStmt);
-            Common.close(conn);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return -1;
-        }
-        if (cusNo != -1) {
-            System.out.println();
-            System.out.print("회원번호 " + cusNo + "번 " + cusName + "님 ");
-        }
-        return cusNo;
-
-    }
 
     public void CusInsert() {
         System.out.println("회원 가입을 진행 합니다");
@@ -150,6 +121,7 @@ public class FinDao {
         }
         Common.close(pStmt);
         Common.close(conn);
+        System.out.println();
     }
 
     public void CusInfo() {
@@ -159,16 +131,16 @@ public class FinDao {
             int selNum = sc.nextInt();
             switch (selNum) {
                 case 1 :
-                    System.out.println("회원조회입니다.");
+                    System.out.println();
                     List<CusVO> list = cusSelect();
                     cusSelectPrint(list);
                     break;
                 case 2 :
-                    System.out.println("회원 수정입니다.");
+                    System.out.println();
                     cusUpdate();
                     break;
                 case 3 :
-                    System.out.println("회원 삭제 입니다.");
+                    System.out.println();
                     cusDelete();
                     break;
                 case 4 :
@@ -208,8 +180,8 @@ public class FinDao {
     }
 
     public void menuSelectPrint(List<MenuVO> list) {
-        System.out.println("   [메뉴]          [가격] ");
-        System.out.println("------------------------------------");
+        System.out.println("   [메뉴]             [가격] ");
+        System.out.println("-------------------------------");
 
         for (MenuVO e : list) {
             System.out.printf("%-10s", e.getMenuName());
@@ -237,6 +209,7 @@ public class FinDao {
             int ret = pStmt.executeUpdate();
             //System.out.println("Return : " + ret);
             System.out.println("새로운 메뉴가 추가되었습니다.");
+            System.out.println();
 
         }catch (Exception e) {
             e.printStackTrace();
@@ -259,9 +232,12 @@ public class FinDao {
             pStmt.setInt(1, price);
             pStmt.setString(2, menuName);
             pStmt.executeUpdate();
+            System.out.println("메뉴정보가 수정되었습니다.");
+            System.out.println();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         Common.close(pStmt);
         Common.close(conn);
     }
@@ -296,22 +272,23 @@ public class FinDao {
                     menuSelectPrint(list);
                     break;
                 case 2 :
-                    System.out.println("메뉴추가 입니다.");
+                    System.out.println();
                     menuInsert();
                     break;
 
                 case 3 :
-                    System.out.println("메뉴 수정입니다.");
+                    System.out.println();
                     menuUpdate();
                     break;
 
                 case 4 :
-                    System.out.println("메뉴 삭제 입니다.");
+                    System.out.println();
                     menuDelete();
                     break;
 
                 case 5 :
-                    System.out.println("회원관리메뉴를 종료합니다.");
+                    System.out.println("메뉴관리를 종료합니다.");
+                    System.out.println();
                     return;
                 default:
                     System.out.println("선택하신 번호를 다시 확인하세요.");
@@ -321,7 +298,7 @@ public class FinDao {
         }
     }
     // MenuDal 끝
-    public void dailySales() {
+    public void dailySales() { // 매출조회
         System.out.print("조회할 날짜를 입력하세요(yy/mm/dd) : ");
         String day = sc.next();
 
@@ -360,7 +337,7 @@ public class FinDao {
     }
 
 
-    public void menuCount() {
+    public void menuCount() { // 메뉴별판매현황
 
         String sql = "SELECT 메뉴이름, COUNT(메뉴이름) AS 판매수량\n" +
                 "    FROM ORDER_LIST\n" +
@@ -388,7 +365,7 @@ public class FinDao {
         Common.close(conn);
     }
 
-    public void vip() {
+    public void vip() { // 손님 방문횟수 확인
         String sql = "SELECT 고객이름, COUNT(고객이름) AS 방문횟수\n" +
                 "    FROM CUSTOMER C JOIN ORDER_LIST O\n" +
                 "        ON C.회원번호 = O.회원번호\n" +
@@ -664,7 +641,6 @@ public class FinDao {
             break;
         }
 
-
         String cheese;
         while (true) {
             System.out.println();
@@ -807,6 +783,7 @@ public class FinDao {
         }
         Common.close(pStmt);
         Common.close(conn);
+        System.out.println("※ 주문하신 제품을 장바구니에 담았습니다");
     }
 
 
@@ -1058,6 +1035,7 @@ public class FinDao {
             pStmt.setInt(7, howMany);
             pStmt.setInt(8, tempOrderNo);
             pStmt.executeUpdate();
+            System.out.println();
             System.out.println(" 주문번호 " + tempOrderNo + "번의 변경이 완료되었습니다.");
 
         } catch (Exception e) {
@@ -1157,6 +1135,87 @@ public class FinDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public void admin(){
+        System.out.println();
+        System.out.print("비밀번호를 입력하세요 \n☞ ");
+        String pwd = sc.next();
+        if (pwd.equalsIgnoreCase("0000")) {
+            System.out.println("====================");
+            System.out.println("관리자 모드로 접속합니다");
+            System.out.println("====================");
+            while (true) {
+                System.out.print("[1] 메뉴관리  [2] 회원관리  [3] 매출조회  [4] 메뉴별판매현황  [5] VIP  [6] 재료소진 확인  [7] 종료 \n☞ ");
+                int num = sc.nextInt();
+                switch (num) {
+                    case 1 :
+                        menuInfo(); // 메뉴관리
+                        break;
+                    case 2 :
+                        CusInfo(); // 회원관리
+                        break;
+                    case 3 :
+                        dailySales(); // 매출조회
+                        break;
+                    case 4 :
+                        menuCount(); // 메뉴별판매현황
+                        break;
+
+                    case 5 :
+                        vip(); // VIP
+                        break;
+                    case 6 :
+                        checkList(); // 재료소진 확인
+                        break;
+
+                    case 7 :
+                        System.out.println("관리자 모드를 종료합니다.");
+                        System.out.println();
+                        return;
+                    default:
+                        System.out.println("선택하신 번호를 다시 확인하세요.");
+                        num = 0;
+                        continue;
+                }
+            }
+
+        } else {
+            System.out.println();
+            System.out.println("※ 비밀번호 오류입니다 ※");
+            System.out.println();
+        }
+    }
+    public int login() {
+
+        int cusNo;
+        System.out.print("성함을 입력해주세요 ☞ ");
+        String cusName = sc.next();
+        System.out.print("핸드폰번호 마지막 4자리를 입력해주세요 ☞ ");
+        String phone = sc.next();
+
+        try {
+            String sql = "SELECT * FROM CUSTOMER WHERE 고객이름 = ? AND SUBSTR(전화번호, 10,4) = ?";
+            conn = Common.getConnection(); // 연결 생성
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, cusName);
+            pStmt.setString(2, phone);
+            rs = pStmt.executeQuery();
+            if (rs.next()) {
+                cusNo = rs.getInt("회원번호");
+            } else cusNo = -1;
+            Common.close(rs);
+            Common.close(pStmt);
+            Common.close(conn);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+        if (cusNo != -1) {
+            System.out.println();
+            System.out.print("회원번호 " + cusNo + "번 " + cusName + "님 ");
+        }
+        return cusNo;
+
     }
 
 }
