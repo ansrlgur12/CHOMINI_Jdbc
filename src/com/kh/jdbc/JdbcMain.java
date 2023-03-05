@@ -7,8 +7,9 @@ public class JdbcMain {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         FinDao dao = new FinDao();
+
+        System.out.println("========= 어서오SAN! 맛있SAN! 먹어보SAN! =========");
         while (true) { // 로그인/회원정보
-            System.out.println("========= 인스타쌜드위취 =========");
             System.out.print("[1] 로그인 [2] 회원가입 [3] 종료  [0] 관리자모드\n ☞ ");
             int selNum = sc.nextInt();
             switch (selNum) {
@@ -18,7 +19,7 @@ public class JdbcMain {
                         int cusNo = dao.login();
                         if (cusNo != -1) {
                             isWrongCus = false;
-                            System.out.println("님 '어서오SAN! 맛있SAN! 먹어보SAN!' 방문을 환영합니다 ♥^____^♥\"");
+                            System.out.println("'어서오SAN! 맛있SAN! 먹어보SAN!' 방문을 환영합니다 ♥^____^♥\"");
                             System.out.println();
                             continue;
                         } else {
@@ -86,7 +87,13 @@ public class JdbcMain {
 
                     } else System.out.println("비밀번호 오류입니다");
                     continue;
+
+                default :
+                    System.out.println("선택하신 번호를 다시 확인하세요.");
+                    selNum = 0;
+                    continue;
             }
+
 
 
             System.out.println();
@@ -102,7 +109,7 @@ public class JdbcMain {
                         dao.printBasket();
                         break;
                     case 3:
-                        System.out.println("안녕히가세용~~");
+                        System.out.println("어서오SAN! 맛있SAN! 먹어보SAN! 방문을 감사드립니다 ♥^____^♥");
                         return;
                 }
                 while (true) {
@@ -124,6 +131,7 @@ public class JdbcMain {
                             break;
                         case 5:
                             System.out.println("결제가 완료되었습니다^__^");
+                            System.out.println("어서오SAN! 맛있SAN! 먹어보SAN! 방문을 감사드립니다 ♥^____^♥");
                             //System.out.println("여기서 TEMP_BASKET에서 ORDER_LIST로 인서트! ");
                             dao.finalInsertIntoOrderList();
                             return;

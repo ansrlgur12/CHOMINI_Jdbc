@@ -133,9 +133,9 @@ public class FinDao {
     public void CusInsert() {
         System.out.println("회원 가입을 진행 합니다");
 
-        System.out.print("고객이름 ☞ ");
+        System.out.print("성함을 입력해주세요 ☞ ");
         String cusName = sc.next();
-        System.out.print("전화번호 ☞ ");
+        System.out.print("전화번호(010-****-****)를 입력해주세요 ☞ ");
         String phone = sc.next();
 
         String sql = "INSERT INTO CUSTOMER (회원번호, 고객이름, 전화번호) VALUES (회원번호.NEXTVAL, ?, ?)";
@@ -1058,7 +1058,7 @@ public class FinDao {
             pStmt.setInt(7, howMany);
             pStmt.setInt(8, tempOrderNo);
             pStmt.executeUpdate();
-            System.out.println("주문번호 " + tempOrderNo + "번의 변경이 완료되었습니다.");
+            System.out.println(" 주문번호 " + tempOrderNo + "번의 변경이 완료되었습니다.");
 
         } catch (Exception e) {
             e.printStackTrace();
