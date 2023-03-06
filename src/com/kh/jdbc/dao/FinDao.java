@@ -565,8 +565,6 @@ public class FinDao {
     public void tempBasketInsert() {
         System.out.print("회원번호를 입력하세요 \n ☞ ");
         int customNo = sc.nextInt();
-
-        String menuName;
         System.out.println();
         List<MenuVO> list = menuSelect();
         menuSelectPrint(list);
@@ -574,7 +572,7 @@ public class FinDao {
         System.out.print("※ 메뉴 이름 입력하세요 \n☞ ");
         String selMenu = sc.next();
 
-        String size = null;
+        String size;
         while (true) {
             System.out.println();
             System.out.println("※ 사이즈 번호를 입력하세요 ");

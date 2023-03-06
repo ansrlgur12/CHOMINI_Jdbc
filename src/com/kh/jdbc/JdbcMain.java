@@ -12,8 +12,7 @@ public class JdbcMain {
         while (true) {
             System.out.print("[1] 로그인 [2] 회원가입 [3] 종료  [0] 관리자모드\n ☞ ");
             int selNum = sc.nextInt();
-            switch (selNum)
-            {
+            switch (selNum){
                 case 1:
                     boolean isWrongCus = true;
                     while (isWrongCus) {
@@ -28,13 +27,11 @@ public class JdbcMain {
                             System.out.println("※ 이름과 핸드폰번호를 확인하세요");
                             System.out.print("[1] 로그인 [2] 회원가입 \n ☞ ");
                         }
-
                         int tempNum = sc.nextInt();
                         if (tempNum == 1) continue;
                         else if (tempNum == 2) break;
                     }
                     if (!isWrongCus) break;
-
                 case 2:
                     dao.CusInsert();
                     System.out.println("회원가입을 완료했습니다.");
@@ -46,13 +43,11 @@ public class JdbcMain {
                 case 0:
                     dao.admin();
                     continue;
-
                 default:
                     System.out.println("선택하신 번호를 다시 확인하세요.");
                     selNum = 0;
                     continue;
             }
-
             System.out.println();
             System.out.print("[1] 주문하기 [2] 장바구니 [3] 나가기(주문취소) \n-☞ ");
             while (true) {
@@ -62,7 +57,6 @@ public class JdbcMain {
                         dao.tempBasketInsert();
                         break;
                     case 2:
-
                         dao.printBasket();
                         break;
                     case 3:
@@ -89,12 +83,11 @@ public class JdbcMain {
                         case 5:
                             System.out.println("결제가 완료되었습니다^__^");
                             System.out.println("어서오SAN! 맛있SAN! 먹어보SAN! 방문을 감사드립니다 ♥^____^♥");
-                            //System.out.println("여기서 TEMP_BASKET에서 ORDER_LIST로 인서트! ");
                             dao.finalInsertIntoOrderList();
                             return;
-                    } // 추가주문 switch 끝
-                } // 추가주문 while 끝
-            } // 주문 while 끝
-        } // 로그인/회원정보 끝
-    } // main 끝
+                    }
+                }
+            }
+        }
+    }
 }
